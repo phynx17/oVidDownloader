@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="videodownloader">
+	<property file="build.properties"/>
+	<property name="src" value="java/src" />
+	<property name="java.home" value="C:/Program Files/Java/jdk1.5.0_05" />
+	<property name="lib.root" value="java/lib" />
+	<property name="build.classes" value="java/classes" />
+
+	<path id="videodownloader.classpath">
+		<pathelement location="${build.classes}"/>
+		<pathelement location="${lib.root}/guice-1.0.jar"/>
+		<pathelement location="${lib.root}/aopalliance.jar"/>
+		<pathelement location="${lib.root}/commons-httpclient-3.0.1.jar"/>
+		<pathelement location="${lib.root}/commons-logging.jar"/>
+	</path>
+
+	<property name="aspectj.src" value="aspectj/src" />
+	
+	<path id="ajde.classpath">
+		<pathelement path="../../plugins/org.eclipse.core.resources_3.2.1.R32x_v20060914.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.1.100.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.runtime_3.2.0.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.osgi_3.2.1.R32x_v20060919.jar"/>
+		<pathelement path="../../plugins/org.eclipse.equinox.common_3.2.0.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.jobs_3.2.0.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.equinox.registry_3.2.1.R32x_v20060814.jar"/>
+		<pathelement path="../../plugins/org.eclipse.equinox.preferences_3.2.1.R32x_v20060717.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.contenttype_3.2.0.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.auth_3.2.0.v20060601.jar"/>
+		<pathelement path="../../plugins/org.eclipse.update.configurator_3.2.1.v20092006.jar"/>
+		<pathelement path="../../plugins/org.eclipse.ant.core_3.1.100.v20060531.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.variables_3.1.100.v20060605.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.expressions_3.2.1.r321_v20060721.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.filesystem_1.0.0.v20060603.jar"/>
+		<pathelement path="../../plugins/org.eclipse.text_3.2.0.v20060605-1400.jar"/>
+		<pathelement path="../../plugins/org.eclipse.core.commands_3.2.0.I20060605-1400.jar"/>
+		<pathelement path="../../plugins/org.aspectj.ajde_1.5.3.200610201049/ajde.jar"/>
+		<pathelement path="../../plugins/org.aspectj.weaver_1.5.3.200610201049/aspectjweaver.jar"/>
+		<pathelement path="../../plugins/org.aspectj.runtime_1.5.3.200610201049/aspectjrt.jar"/>
+	</path>
+	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
+		<classpath refid="ajde.classpath" />
+	</taskdef>
+
+	<target depends="clean" name="init">
+		<mkdir dir="${build.classes}"/>
+		<copy includeemptydirs="false" todir="${build.classes}">
+			<fileset dir="${src}" 
+            	excludes="**/*.uad, **/*.ucd, **/*.uld, **/*.upd, **/*.udd, **/*.uod, **/*.usd, **/*.utd, **/*.uud, **/*.odd, **/*.ead, **/*.ecd, **/*.eld, **/*.epd, **/*.edd, **/*.eod, **/*.esd, **/*.etd, **/*.eud, **/*.urd*.uml, **/*.ecore, **/*.java"/>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="${build.classes}"/>
+	</target>
+
+	<target depends="init" name="build">
+		<echo message="${java.home}"/>
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.classes}">
+			<src path="${src}"/>
+			<classpath refid="videodownloader.classpath"/>
+		</javac>
+	</target>
+
+	<target name="build_aspectj">
+		<delete dir="${build.classes}"/>
+		<mkdir dir="${build.classes}"/>
+		<!-- read additional ajc options from a file if required -->
+		<property name="ajcArgFile" value=""/>
+		<!-- fork the compiler -->
+		<iajc destDir="${build.classes}" failonerror="true" argfiles=""
+	     verbose="true" fork="true" maxmem="512m">
+			<forkclasspath refid="ajde.classpath" />
+			<forkclasspath refid="videodownloader.classpath" />
+			<src path="${src};${aspectj.src}"/>
+		</iajc>
+	</target>
+
+
+</project>
